@@ -11,6 +11,6 @@ public class TestController {
 
     @GetMapping
     public TestResponse test() {
-        return new TestResponse("Hello World");
+        return new TestResponse("Nothing");
     }
 }
