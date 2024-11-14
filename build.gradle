@@ -11,7 +11,7 @@ group = 'org.fintech'
 version = '1.0-SNAPSHOT'
 
 checkstyle {
-    configFile = file("/config/checkstyle/checkstyle.xml")
+    configFile = file("config/checkstyle/checkstyle.xml")
 }
 
 repositories {
