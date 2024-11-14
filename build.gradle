@@ -1,0 +1,52 @@
+plugins {
+    id 'org.springframework.boot' version '3.3.4'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'io.freefair.lombok' version '8.10'
+    id 'java'
+    id 'jacoco'
+    id 'checkstyle'
+}
+
+group = 'org.fintech'
+version = '1.0-SNAPSHOT'
+
+checkstyle {
+    configFile = file("../config/checkstyle/checkstyle.xml")
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //starters
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    //test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+    jvmArgs '-XX:+EnableDynamicAgentLoading'
+}
+
+jacocoTestReport {
+    dependsOn test
+
+    reports {
+        xml.required = true
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    "org/fintech/api/model/",
+                    "org/fintech/TestServiceApplication*"
+            ])
+        }))
+    }
+}
